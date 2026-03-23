@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modifier mon Profil | BL Alliance</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #D32F2F;
+            --primary-hover: #B71C1C;
+            --dark: #0a0a0a;
+            --card-bg: #141414;
+            --text: #ffffff;
+            --input-bg: #1f1f1f;
+            --border: rgba(211, 47, 47, 0.2);
+        }
+
+        body {
+            background-color: var(--dark);
+            color: var(--text);
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding-top: 100px;
+            padding-bottom: 100px;
+        }
+
+        /* --- HEADER (Identique) --- */
+        header {
+            position: fixed;
+            top: 0; width: 100%; z-index: 1000;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 5%;
+            background: rgba(0,0,0,0.95);
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(10px);
+            box-sizing: border-box;
+        }
+
+        .logo-container { display: flex; align-items: center; gap: 12px; }
+        .logo-container img { height: 40px; }
+        .brand-name { color: var(--primary); font-size: 1.8rem; font-weight: 900; text-transform: uppercase; margin-left: 10px; }
+
+        /* --- CONTAINER PROFIL --- */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        /* Photo de Profil avec Crayon */
+        .avatar-upload {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 20px;
+        }
+
+        .avatar-preview {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 3px solid var(--primary);
+            background-size: cover;
+            background-position: center;
+            background-image: url('assets/default-avatar.png'); /* Image par défaut */
+            box-shadow: 0 0 20px rgba(211, 47, 47, 0.3);
+        }
+
+        .avatar-edit {
+            position: absolute;
+            right: 5px;
+            bottom: 5px;
+            z-index: 1;
+        }
+
+        .avatar-edit input { display: none; }
+        .avatar-edit label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .avatar-edit label:hover { background: var(--primary-hover); }
+
+        /* --- FORMULAIRE --- */
+        .form-section {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid #222;
+            margin-bottom: 30px;
+        }
+
+        .form-section h3 {
+            color: var(--primary);
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .form-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            width: 30%;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #ccc;
+        }
+
+        .form-control {
+            width: 70%;
+            background: var(--input-bg);
+            border: 1px solid #333;
+            padding: 12px 15px;
+            border-radius: 6px;
+            color: white;
+            font-family: inherit;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .form-control:focus { border-color: var(--primary); }
+
+        textarea.form-control { height: 100px; resize: none; }
+
+        /* --- TAGS SYSTEM --- */
+        .tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            width: 70%;
+        }
+
+        .tag-item {
+            padding: 6px 15px;
+            background: #222;
+            border: 1px solid #444;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .tag-item.selected {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        .tag-limit-info {
+            display: block;
+            font-size: 0.7rem;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        /* --- FOOTER (Identique) --- */
+        .social-footer {
+            position: fixed;
+            bottom: 0; left: 0; width: 100%;
+            padding: 15px 0;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid var(--border);
+            text-align: center;
+            z-index: 999;
+            display: flex; justify-content: center; align-items: center;
+        }
+        .social-footer p { color: #888; font-size: 13px; margin: 0; width: 90%; }
+
+        .btn-save {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1rem;
+            display: block;
+            margin: 40px auto;
+            transition: 0.3s;
+        }
+        .btn-save:hover { background: var(--primary-hover); transform: translateY(-3px); }
+
+        /* --- MOBILE RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .form-group { flex-direction: column; align-items: flex-start; }
+            .form-group label { width: 100%; margin-bottom: 8px; }
+            .form-control, .tags-container { width: 90%; }
+            .container { padding-bottom: 100px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <a href="index.html" style="display: flex; align-items: center; text-decoration: none;">
+                <img src="assets/logo2.png" alt="BL Alliance">
+                <span class="brand-name">BL Alliance</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <form id="editProfileForm">
+            <div class="profile-header">
+                <div class="avatar-upload">
+                    <div class="avatar-edit">
+                        <!-- <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" capture="user" /> -->
+                        <input type='file' id="imageUpload" accept="image/*" />
+                        <label for="imageUpload"><i class="fas fa-pencil-alt"></i></label>
+                    </div>
+                    <div class="avatar-preview" id="imagePreview"></div>
+                </div>
+                <p style="font-size: 0.8rem; color: #888;">Cliquez sur le crayon pour changer votre photo</p>
+            </div>
+
+            <div class="form-section">
+                <h3>Informations de base</h3>
+                <div class="form-group">
+                    <label>Nom complet</label>
+                    <input type="text" class="form-control" value="Jean Dupont" required>
+                </div>
+                <div class="form-group">
+                    <label>Date de naissance</label>
+                    <input type="date" class="form-control" value="1995-06-05" required>
+                </div>
+                <div class="form-group">
+                    <label>Numéro de téléphone</label>
+                    <input type="tel" class="form-control" value="+243 812 345 678" required>
+                </div>
+                <div class="form-group">
+                    <label>Sexe</label>
+                    <select class="form-control">
+                        <option value="Homme" selected>Homme</option>
+                        <option value="Femme">Femme</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3>Ma personnalité & Ma vie</h3>
+                
+                <div class="form-group">
+                    <label>État civil</label>
+                    <select class="form-control" required>
+                        <option value="" disabled selected>Choisir...</option>
+                        <option>Célibataire</option>
+                        <option>Marié(e)</option>
+                        <option>Divorcé(e)</option>
+                        <option>Veuf(ve)</option>
+                        <option>Engagé(e) dans une union libre</option>
+                        <option>Séparé(e) de corps</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Couleur de peau</label>
+                    <select class="form-control" required>
+                        <option value="" disabled selected>Choisir...</option>
+                        <option>Teint foncé</option>
+                        <option>Teint intermédiaire</option>
+                        <option>Brun(e)</option>
+                        <option>Très Brun(e)</option>
+                        <option>Métis(e)</option>
+                        <option>Blanc(he)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Taille (mètres)</label>
+                    <input type="number" step="0.01" class="form-control" placeholder="Ex: 1.75">
+                </div>
+
+                <div class="form-group">
+                    <label>Poids (Kilos)</label>
+                    <input type="number" class="form-control" placeholder="Ex: 75">
+                </div>
+
+                <div class="form-group">
+                    <label>Profession(s) <span class="tag-limit-info">(Max 3)</span></label>
+                    <div class="tags-container" id="tags-profession">
+                        <span class="tag-item">Médecin</span>
+                        <span class="tag-item">Agronome</span>
+                        <span class="tag-item">Sociologue</span>
+                        <span class="tag-item">Économiste</span>
+                        <span class="tag-item">Comptable</span>
+                        <span class="tag-item">Banquier</span>
+                        <span class="tag-item">Infirmier</span>
+                        <span class="tag-item">Informaticien</span>
+                        <span class="tag-item">Programmeur</span>
+                        <span class="tag-item">Entrepreneur</span>
+                        <span class="tag-item">Enseignant</span>
+                        <span class="tag-item">Professeur</span>
+                        <span class="tag-item">Chercheur</span>
+                        <span class="tag-item">Petit Commerçant</span>
+                        <span class="tag-item">Commerçant Moyen</span>
+                        <span class="tag-item">Grand Commerçant</span>
+                        <span class="tag-item">Avocat</span>
+                        <span class="tag-item">Ingénieur en Mines</span>
+                        <span class="tag-item">Mécanicien</span>
+                        <span class="tag-item">Maçon</span>
+                        <span class="tag-item">Journaliste</span>
+                        <span class="tag-item">Savetier</span>
+                        <span class="tag-item">Autre</span>
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Études faites</label>
+                    <input type="text" class="form-control" placeholder="Ex: Licence en Économie">
+                </div>
+
+                <div class="form-group">
+                    <label>Bio (Moi en détail)</label>
+                    <textarea class="form-control" placeholder="Veuillez parler de vous plus en détail..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Religion</label>
+                    <select class="form-control">
+                        <option>Catholique</option>
+                        <option>Protestante</option>
+                        <option>Musulmane</option>
+                        <option>Anglicane</option>
+                        <option>Église de réveil</option>
+                        <option>Kimbanguiste</option>
+                        <option>Adventiste</option>
+                        <option>Orthodoxe</option>
+                        <option>Autre</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Sport(s) <span class="tag-limit-info">(Max 5)</span></label>
+                    <div class="tags-container" id="tags-sports">
+                        <span class="tag-item">Football</span>
+                        <span class="tag-item">Basket-ball</span>
+                        <span class="tag-item">Fitness</span>
+                        <span class="tag-item">Natation</span>
+                        <span class="tag-item">Tennis</span>
+                        <span class="tag-item">Marche</span>
+                        <span class="tag-item">Autre</span>
+                        <span class="tag-item">Aucun</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Divertissement <span class="tag-limit-info">(Max 10)</span></label>
+                    <div class="tags-container" id="tags-divertissement">
+                        <span class="tag-item">Cinéma</span>
+                        <span class="tag-item">Musique</span>
+                        <span class="tag-item">Balade</span>
+                        <span class="tag-item">Lecture</span>
+                        <span class="tag-item">Voyage</span>
+                        <span class="tag-item">Cuisine</span>
+                        <span class="tag-item">Jeux Vidéo</span>
+                        <span class="tag-item">Théâtre</span>
+                        <span class="tag-item">Séries TV</span>
+                        <span class="tag-item">Danse</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3>Origines & Résidence</h3>
+                <div class="form-group">
+                    <label>Lieu de naissance</label>
+                    <input type="text" class="form-control" placeholder="Ville ou Territoire">
+                </div>
+                <div class="form-group">
+                    <label>Village d'origine</label>
+                    <input type="text" class="form-control" placeholder="Origine des arrières grand-parents">
+                </div>
+                <div class="form-group">
+                    <label>Adresse actuelle</label>
+                    <input type="text" class="form-control" placeholder="Commune, Quartier, N°">
+                </div>
+                <div class="form-group">
+                    <label>Langues parlées</label>
+                    <div class="tags-container" id="tags-langues">
+                        <span class="tag-item">Français</span>
+                        <span class="tag-item">Swahili</span>
+                        <span class="tag-item">Lingala</span>
+                        <span class="tag-item">Tshiluba</span>
+                        <span class="tag-item">Kikongo</span>
+                        <span class="tag-item">Anglais</span>
+                        <span class="tag-item">Latin</span>
+                        <span class="tag-item">Espagnol</span>
+                        <span class="tag-item">Arabe</span>
+                        <span class="tag-item">Autre</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3>Style de vie</h3>
+                <div class="form-group">
+                    <label>Désir d'enfants</label>
+                    <select class="form-control" id="child-desire" onchange="toggleChildCount()">
+                        <option value="Non">Non</option>
+                        <option value="Peut-être">Peut-être</option>
+                        <option value="Oui">Oui</option>
+                    </select>
+                </div>
+                <div class="form-group" id="child-count-group" style="display: none;">
+                    <label>Combien d'enfants ?</label>
+                    <input type="number" class="form-control" placeholder="0">
+                </div>
+                <div class="form-group">
+                    <label>Habitudes <span class="tag-limit-info">(Max 10)</span></label>
+                    <div class="tags-container" id="tags-habitudes">
+                        <!-- <span class="tag-item">Non-fumeur</span> -->
+                        <span class="tag-item">Fumeur</span>
+                        <span class="tag-item">Abstème (Ne boit pas)</span>
+                        <span class="tag-item">Buveur occasionnel</span>
+                        <span class="tag-item">Buveur (regulier)</span>
+                        <span class="tag-item">Ivrogne</span>
+                        <span class="tag-item">Végétarien</span>
+                        <span class="tag-item">Lève-tôt</span>
+                        <span class="tag-item">Couche-tard</span>
+                        <span class="tag-item">Casanier</span>
+                        <span class="tag-item">Voyageur occasionnel</span>
+                        <span class="tag-item">Voyageur regulier</span>
+                        <span class="tag-item">Bavard</span>
+                        <span class="tag-item">Discret</span>
+                        <span class="tag-item">Introverti</span>
+                        <span class="tag-item">Extraverti</span>
+                        <span class="tag-item">Sportif</span>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-save">Enregistrer les modifications</button>
+        </form>
+    </div>
+
+    <footer class="social-footer">
+        <p>© 2026 BL Alliance — Agence de Courtage Matrimonial. Tous droits réservés.</p>
+    </footer>
+
+    <script>
+        // 1. Preview de l'image de profil
+        // function readURL(input) {
+        //     if (input.files && input.files[0]) {
+        //         var reader = new FileReader();
+        //         reader.onload = function(e) {
+        //             document.getElementById('imagePreview').style.backgroundImage = 'url('+e.target.result+')';
+        //         }
+        //         reader.readAsDataURL(input.files[0]);
+        //     }
+        // }
+        // Remplacez votre fonction readURL actuelle par celle-ci
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    const preview = document.getElementById('imagePreview');
+                    preview.style.backgroundImage = `url('${e.target.result}')`;
+                    preview.style.display = 'block'; // S'assure que l'image est visible
+                }
+                
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        document.getElementById("imageUpload").addEventListener("change", function() {
+            readURL(this);
+        });
+
+        // 2. Gestionnaire de Tags avec limites
+        function setupTags(containerId, max) {
+            const container = document.getElementById(containerId);
+            const tags = container.querySelectorAll('.tag-item');
+            
+            tags.forEach(tag => {
+                tag.addEventListener('click', () => {
+                    const selectedCount = container.querySelectorAll('.tag-item.selected').length;
+                    
+                    if (tag.classList.contains('selected')) {
+                        tag.classList.remove('selected');
+                    } else {
+                        if (selectedCount < max) {
+                            tag.classList.add('selected');
+                        } else {
+                            alert(`Vous pouvez choisir maximum ${max} éléments pour cette section.`);
+                        }
+                    }
+                });
+            });
+        }
+
+        // Initialisation des limites
+        setupTags('tags-profession', 3);
+        setupTags('tags-sports', 5);
+        setupTags('tags-divertissement', 10);
+        setupTags('tags-langues', 6);
+        setupTags('tags-habitudes', 10);
+
+        // 3. Affichage conditionnel du nombre d'enfants
+        function toggleChildCount() {
+            const val = document.getElementById('child-desire').value;
+            const group = document.getElementById('child-count-group');
+            group.style.display = (val === 'Oui') ? 'flex' : 'none';
+        }
+
+        // 4. Soumission du formulaire
+        document.getElementById('editProfileForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert("Profil mis à jour avec succès !");
+            // Ici, vous ajouterez votre logique Firebase ou Backend
+        });
+    </script>
+</body>
+</html>
+
