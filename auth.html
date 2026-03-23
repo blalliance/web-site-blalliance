@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BL Alliance | Connexion & Inscription</title>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style type="text/css">
+        :root {
+            --primary: #D32F2F;
+            --primary-hover: #B71C1C;
+            --dark: #0a0a0a;
+            --text: #ffffff;
+        }
+
+        body {
+            margin: 0;
+            padding: 40px 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Jost', sans-serif;
+            background: var(--dark);
+            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('assets/logo2.png');
+            background-position: center;
+            background-size: cover;
+            background-attachment: fixed;
+            backdrop-filter: blur(8px);
+            box-sizing: border-box;
+        }
+
+        .auth-logo {
+            width: 140px;
+            height: auto;
+            margin-bottom: 30px;
+            filter: drop-shadow(0 0 15px rgba(211, 47, 47, 0.4));
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .auth-logo:hover {
+            transform: scale(1.05);
+        }
+
+        .main {
+            width: 350px;
+            height: 620px;
+            background: #111;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0px 20px 50px rgba(0,0,0,0.8);
+            border: 1px solid rgba(211, 47, 47, 0.2);
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        #chk {
+            display: none;
+        }
+
+        /* --- SIGNUP --- */
+        .signup {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        label {
+            color: #fff;
+            font-size: 2rem;
+            justify-content: center;
+            display: flex;
+            margin: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: .5s ease-in-out;
+        }
+
+        .input-container {
+            position: relative;
+            width: 70%;
+            margin: 15px auto;
+        }
+
+        select {
+            width: 100%;
+            height: 35px; /* Aligné sur la hauteur de vos inputs */
+            background: #222;
+            padding: 0 15px;
+            border: 1px solid #333;
+            outline: none;
+            border-radius: 5px;
+            color: #fff;
+            cursor: pointer;
+            appearance: none; /* Supprime le style par défaut du navigateur */
+        }
+
+        select:focus {
+            border-color: var(--primary);
+        }
+
+        /* Style gris pour simuler le placeholder */
+        .placeholder-style {
+            color: #888 !important;
+        }
+
+        /* Style des options à l'intérieur pour qu'elles restent blanches ou lisibles */
+        select option {
+            background: #222;
+            color: #fff;
+        }
+
+        input {
+            width: 100%;
+            height: 15px;
+            background: #222;
+            padding: 15px;
+            border: 1px solid #333;
+            outline: none;
+            border-radius: 5px;
+            color: #fff;
+            transition: border 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        input:focus {
+            border-color: var(--primary);
+        }
+
+        /* Style de l'œil */
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        button {
+            width: 70%;
+            height: 45px;
+            margin: 10px auto;
+            justify-content: center;
+            display: block;
+            color: #fff;
+            background: var(--primary);
+            font-size: 1em;
+            font-weight: bold;
+            margin-top: 25px;
+            outline: none;
+            border: none;
+            border-radius: 5px;
+            transition: .2s ease-in;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+
+
+/* Affichage au survol du wrapper quand le bouton est bloqué */
+.button-wrapper:hover .custom-tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+
+        /* --- LOGIN --- */
+        .login {
+            height: 460px;
+            background: #eee;
+            border-radius: 60% / 10%;
+            transform: translateY(-165px);
+            transition: .8s ease-in-out;
+        }
+
+        .login label {
+            color: var(--primary);
+            transform: scale(.6);
+        }
+
+        .login input {
+            background: #ddd;
+            border: 1px solid #ccc;
+            color: #000;
+        }
+
+        /* --- LOGIQUE DE BASCULE --- */
+        #chk:checked ~ .login {
+            transform: translateY(-580px);
+        }
+
+        #chk:checked ~ .login label {
+            transform: scale(1);    
+        }
+
+        #chk:checked ~ .signup label {
+            transform: scale(.6);
+        }
+
+        .back-home {
+            position: absolute;
+            bottom: 15px;
+            width: 100%;
+            text-align: center;
+            font-size: 0.8rem;
+        }
+
+        .back-home a {
+            color: var(--primary);
+            text-decoration: none;
+            opacity: 0.7;
+            font-weight: 500;
+        }
+
+
+
+
+
+
+        .accept-container {
+            width: 75%;
+            margin: 10px auto;
+            text-align: left;
+        }
+
+        .accept-text {
+            color: #888;
+            font-size: 0.75rem;
+            margin-bottom: 8px;
+        }
+
+        .check-item {
+            display: flex !important;
+            align-items: center;
+            justify-content: flex-start !important;
+            margin: 5px 0 !important;
+            cursor: pointer;
+        }
+
+        .check-item input[type="checkbox"] {
+            width: 16px !important;
+            height: 16px !important;
+            margin-right: 10px;
+            cursor: pointer;
+            accent-color: var(--primary); /* Donne la couleur rouge à la coche */
+        }
+
+        .check-label {
+            font-size: 0.75rem;
+            color: #ccc;
+            font-weight: normal;
+        }
+
+        .check-label a {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+
+        /* État activé du bouton */
+        button:not(:disabled) {
+            opacity: 1 !important;
+            cursor: pointer !important;
+        }
+
+
+
+
+
+
+
+        /* Conteneur pour détecter le survol même si le bouton est bloqué */
+        .button-wrapper {
+            position: relative;
+            width: 70%;
+            margin: 25px auto 10px;
+        }
+
+        /* Style du bouton désactivé (Gris) */
+        #btn_signup:disabled {
+            background: #555 !important;
+            color: #aaa !important;
+            opacity: 1 !important;
+            cursor: not-allowed !important;
+            margin-top: 0; /* Géré par le wrapper */
+            width: 100%;
+        }
+
+        /* Tooltip (Caché par défaut) */
+        .custom-tooltip {
+            visibility: hidden;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 5px;
+            padding: 8px;
+            position: absolute;
+            z-index: 10;
+            bottom: 125%; 
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            font-size: 0.7rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+            border: 1px solid var(--primary);
+            pointer-events: none;
+        }
+
+        /* Flèche du tooltip */
+        .custom-tooltip::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #333 transparent transparent transparent;
+        }
+
+        /* Affichage au survol du wrapper uniquement si le bouton est disabled */
+        .button-wrapper:hover .custom-tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Cache le tooltip si le bouton est activé */
+        #btn_signup:not(:disabled) + .custom-tooltip {
+            display: none;
+        }
+
+
+
+
+
+
+
+
+
+
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            body { padding: 20px 0; }
+            .auth-logo { width: 110px; margin-bottom: 20px; }
+            .main { width: 320px; height: 600px; }
+            #chk:checked ~ .login { transform: translateY(-580px); }
+            .signup{ padding-bottom: 18px; }
+        }
+    </style>
+</head>
+<body>
+
+    <img src="assets/logo2.png" alt="BL Alliance" class="auth-logo">
+
+    <div class="main">     
+        <input type="checkbox" id="chk" aria-hidden="true">
+
+        <div class="signup">
+            <form action="paiement-inscription.html" method="GET">
+                <label for="chk" aria-hidden="true">Inscription</label>
+                <div class="input-container">
+                    <input type="text" name="txt" placeholder="Nom complet" required="">
+                </div>
+                <!-- <div class="input-container">
+                    <input type="date" name="dob" placeholder="Date de naissance" required="" style="color: #888;" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'">
+                </div> -->
+
+                <div class="input-container">
+                    <input 
+                        type="text" 
+                        name="dob" 
+                        placeholder="Date de naissance" 
+                        required="" 
+                        onfocus="(this.type='date')" 
+                        onblur="if(!this.value)this.type='text'"
+                        id="date_input">
+                </div>
+
+                <div class="input-container">
+                    <input type="tel" name="phone" placeholder="Téléphone" required="">
+                </div>
+
+                <div class="input-container">
+                    <select name="sexe" required="" id="sexe_select" class="placeholder-style" onchange="this.classList.remove('placeholder-style')">
+                        <option value="" disabled selected>Sexe</option>
+                        <option value="Homme">Homme</option>
+                        <option value="Femme">Femme</option>
+                    </select>
+                </div>
+
+                <div class="input-container">
+                    <input type="password" id="pass_signup" name="pswd" placeholder="Mot de passe" required="">
+                    <i class="fa-solid fa-eye toggle-password" onclick="togglePass('pass_signup', this)"></i>
+                </div>
+
+                <!-- <div>
+                    <p>Avant de créer un compte sur ce site assurez-vous d'avoir lu:</p>
+                    <p><a href="conditions-generales-d-utilisations.html">les conditions générales d'utilisations</a></p>
+                    <p><a href="privacy-policy.html">la politique de confidentialité</a></p>
+                </div>
+
+                <button type="submit">Avancer</button> -->
+
+                <div class="accept-container">
+                    <p class="accept-text">Avant d'avancer, veuillez accepter :</p>
+                    
+                    <label class="check-item">
+                        <input type="checkbox" id="accept_cgu">
+                        <span class="check-label">J'accepte les <a href="conditions-generales-d-utilisations.html" target="_blank">CGU</a></span>
+                    </label>
+
+                    <label class="check-item">
+                        <input type="checkbox" id="accept_privacy">
+                        <span class="check-label">J'accepte la <a href="privacy-policy.html" target="_blank">politique de confidentialité</a></span>
+                    </label>
+                </div>
+
+                <!-- <button type="submit" id="btn_signup" disabled style="opacity: 0.5; cursor: not-allowed;">Avancer</button> -->
+
+                <div class="button-wrapper">
+                    <button type="submit" id="btn_signup" disabled>Avancer</button>
+                    <span class="custom-tooltip">Veuillez accepter les CGU et la Politique de confidentialité pour continuer.</span>
+                </div>
+
+            </form>
+        </div>
+
+        <div class="login">
+            <form id="loginForm">
+                <label for="chk" aria-hidden="true">Connexion</label>
+                
+                <div class="input-container">
+                    <input type="tel" id="loginPhone" name="phone" placeholder="Téléphone" required>
+                </div>
+                
+                <div class="input-container">
+                    <input type="password" id="pass_login" name="pswd" placeholder="Mot de passe" required>
+                    <i class="fa-solid fa-eye toggle-password" onclick="togglePass('pass_login', this)"></i>
+                </div>
+
+                <button type="submit">Connexion</button>
+            </form>
+            
+            <div class="back-home">
+                <a href="index.html">← Retour à l'accueil</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Basculement visibilité mot de passe
+        function togglePass(id, el) {
+            const input = document.getElementById(id);
+            if (input.type === "password") {
+                input.type = "text";
+                el.classList.replace("fa-eye", "fa-eye-slash");
+            } else {
+                input.type = "password";
+                el.classList.replace("fa-eye-slash", "fa-eye");
+            }
+        }
+
+        window.onload = () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const mode = urlParams.get('mode');
+            const checker = document.getElementById('chk');
+
+            if (mode === 'login') {
+                checker.checked = true;
+            } else {
+                checker.checked = false;
+            }
+        };
+
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            // Empêche la soumission automatique
+            event.preventDefault();
+
+            const phone = document.getElementById('loginPhone').value.trim();
+            const pass = document.getElementById('pass_login').value.trim();
+
+            // Le navigateur vérifiera 'required' tout seul, 
+            // mais ce script garantit que la redirection ne se fait que si c'est rempli.
+            if (phone !== "" && pass !== "") {
+                // Optionnel : enregistrer une session fictive ici
+                console.log("Connexion en cours...");
+                window.location.href = 'dashboard.html';
+            }
+        });
+
+        const checkCgu = document.getElementById('accept_cgu');
+        const checkPrivacy = document.getElementById('accept_privacy');
+        const btnSignup = document.getElementById('btn_signup');
+
+        function validateChecks() {
+            if (checkCgu.checked && checkPrivacy.checked) {
+                // État activé : Belle couleur rouge
+                btnSignup.disabled = false;
+                btnSignup.style.background = "var(--primary)";
+                btnSignup.style.color = "#ffffff";
+            } else {
+                // État désactivé : Retour au gris (géré par le CSS :disabled)
+                btnSignup.disabled = true;
+                btnSignup.style.background = ""; 
+            }
+        }
+
+        checkCgu.addEventListener('change', validateChecks);
+        checkPrivacy.addEventListener('change', validateChecks);
+
+
+    </script>
+</body>
+</html>

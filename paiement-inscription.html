@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BL Alliance | Finalisation de l'inscription</title>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style type="text/css">
+        :root {
+            --primary: #D32F2F;
+            --primary-hover: #B71C1C;
+            --dark: #0a0a0a;
+            --card-bg: #111111;
+            --text: #ffffff;
+        }
+
+        body {
+            margin: 0;
+            padding: 40px 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Jost', sans-serif;
+            background: var(--dark);
+            background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('assets/logo2.png');
+            background-position: center;
+            background-size: cover;
+            background-attachment: fixed;
+            backdrop-filter: blur(10px);
+            color: var(--text);
+            box-sizing: border-box;
+        }
+
+        .auth-logo {
+            width: 130px;
+            height: auto;
+            margin-bottom: 25px;
+            filter: drop-shadow(0 0 15px rgba(211, 47, 47, 0.4));
+            flex-shrink: 0;
+        }
+
+        /* --- CARDE HARMONISÉE --- */
+        .payment-card {
+            width: 350px; /* Même largeur que .main dans auth.html */
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0px 20px 50px rgba(0,0,0,0.9);
+            border: 1px solid rgba(211, 47, 47, 0.2);
+            text-align: center;
+            flex-shrink: 0;
+            box-sizing: border-box;
+        }
+
+        h2 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .info-text {
+            font-size: 0.9rem;
+            line-height: 1.4;
+            margin-bottom: 20px;
+            opacity: 0.9;
+            color: #ddd;
+        }
+
+        .input-group {
+            margin-bottom: 10px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.8rem;
+            color: var(--primary);
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .momo-input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .momo-input-wrapper i {
+            position: absolute;
+            left: 15px;
+            color: #666;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 12px 12px 40px;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+            transition: border 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        input:focus {
+            border-color: var(--primary);
+        }
+
+        .price-tag {
+            font-size: 0.85rem;
+            color: #aaa;
+            margin-top: 8px;
+            display: block;
+        }
+
+        .price-tag span {
+            color: var(--text);
+            font-weight: bold;
+        }
+
+        .instruction-box {
+            background: rgba(211, 47, 47, 0.05);
+            border-left: 3px solid var(--primary);
+            padding: 12px;
+            margin: 20px 0;
+            font-size: 0.8rem;
+            text-align: left;
+            line-height: 1.4;
+            color: #eee;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        button:hover {
+            background: var(--primary-hover);
+        }
+
+        .secure-footer {
+            margin-top: 20px;
+            font-size: 0.7rem;
+            opacity: 0.5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* --- RESPONSIVE MOBILE --- */
+        @media (max-width: 480px) {
+            .payment-card { 
+                width: 320px; /* Correspond exactement au responsive de auth.html */
+                padding: 25px 20px; 
+            }
+            .auth-logo { width: 110px; }
+            h2 { font-size: 1.3rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <img src="assets/logo2.png" alt="BL Alliance" class="auth-logo">
+
+    <div class="payment-card">
+        <h2>Veuillez payer les frais d'inscription</h2>
+        
+        <p class="info-text">
+            La création de compte est soumise à des frais d'adhésion pour garantir la qualité de nos membres.
+        </p>
+
+        <form id="paymentForm">
+            <div class="input-group">
+                <p style="font-size: 0.6rem;">Nous acceptons le paiement par: Airtel Money, Vodacom MPesa, Orange Money et AfriMoney</p>
+                <label>Votre Numéro Mobile Money :</label>
+                <div class="momo-input-wrapper">
+                    <i class="fas fa-mobile-alt"></i>
+                    <input type="tel" id="phoneInput" placeholder="08... ou 09..." required>
+                </div>
+                <span class="price-tag">Montant à prélever : <span>15.000 FC</span></span>
+            </div>
+
+            <div class="instruction-box">
+                Vous recevrez une demande de confirmation. Validez avec votre <strong>code PIN</strong> pour terminer.
+            </div>
+
+            <button type="submit">Payer et s'inscrire</button>
+        </form>
+
+        <div class="secure-footer">
+            <i class="fas fa-user-shield"></i>
+            Sécurisé par Flutterwave
+        </div>
+    </div>
+<script>
+    document.getElementById('paymentForm').addEventListener('submit', function(event) {
+        // Empêche l'envoi par défaut pour vérifier
+        event.preventDefault();
+        
+        const phone = document.getElementById('phoneInput').value;
+        
+        if(phone.trim() !== "") {
+            // Si le champ est rempli, on redirige vers le dashboard
+            window.location.href = 'dashboard.html';
+        } else {
+            alert("Veuillez entrer votre numéro de téléphone pour procéder au paiement.");
+        }
+    });
+</script>
+</body>
+</html>
+

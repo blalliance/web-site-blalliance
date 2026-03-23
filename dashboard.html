@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>BL Alliance | Dashboard Mobile-Optimized</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #D32F2F;
+            --primary-glow: rgba(211, 47, 47, 0.4);
+            --dark-bg: #0a0a0a;
+            --card-bg: #141414;
+            --glass: rgba(255, 255, 255, 0.08);
+            --font-main: 'Montserrat', sans-serif;
+            --font-serif: 'Playfair Display', serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            background-color: var(--dark-bg);
+            color: white;
+            font-family: var(--font-main);
+            overflow-x: hidden;
+            line-height: 1.4;
+        }
+
+        /* --- NAVBAR --- */
+        .navbar {
+            height: 70px;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(15px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 5%;
+            position: fixed;
+            top: 0; width: 100%;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(211, 47, 47, 0.2);
+        }
+
+        /* Menu Gauche Mobile (Chevron) */
+        .mobile-menu-toggle {
+            display: none; 
+            cursor: pointer; 
+            color: var(--primary);
+            font-size: 1.4rem;
+            transition: 0.3s;
+            padding: 5px;
+        }
+        .mobile-menu-toggle.active i { transform: rotate(90deg); }
+
+        .nav-left { display: flex; align-items: center; gap: 10px; }
+        .nav-logo { height: 35px; width: auto; }
+        .brand-name { 
+            font-family: var(--font-serif); 
+            font-weight: 700; font-size: 1.4rem; 
+            color: var(--primary);
+        }
+
+        .nav-center { display: flex; gap: 20px; }
+        .inst-link { 
+            font-weight: 600; color: white; text-decoration: none; 
+            font-size: 0.75rem; opacity: 0.7; text-transform: uppercase;
+        }
+
+        .nav-right { display: flex; align-items: center; gap: 15px; }
+
+        /* Recherche */
+        .search-bar {
+            background: #1a1a1a; border: 1px solid #333; border-radius: 20px;
+            padding: 6px 12px; display: flex; align-items: center; width: 180px;
+            transition: 0.3s;
+        }
+        .search-bar i { color: #888; font-size: 0.9rem; }
+        .search-bar.focus-active i { display: none; }
+        .search-bar input { 
+            background: transparent; border: none; color: white; 
+            margin-left: 8px; outline: none; width: 100%; font-size: 0.9rem;
+        }
+        .search-icon-mobile { display: none; cursor: pointer; font-size: 1.2rem; color: #fff; }
+
+        .user-mini-img { 
+            width: 35px; height: 35px; border-radius: 50%; 
+            border: 2px solid var(--primary); object-fit: cover;
+        }
+
+        /* 3 Points Menu - Haute Visibilité */
+        .menu-dots { 
+            font-size: 1.6rem; 
+            cursor: pointer; 
+            color: #ffffff; 
+            opacity: 1; 
+            padding: 5px;
+        }
+
+        /* --- SIDE MENU --- */
+        .side-menu {
+            position: fixed; top: 0; right: -280px; width: 270px; height: 100vh;
+            background: #0f0f0f; z-index: 2000; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            /*padding: 80px 20px; */
+            padding: 20px; 
+            /*padding: 20px 0px 0px 0px; */
+
+            border-left: 1px solid var(--primary);
+        }
+        .side-menu.active { right: 0; box-shadow: -10px 0 30px rgba(0,0,0,0.8); }
+        
+        /*.menu-item { 
+            display: flex; align-items: center; gap: 12px; padding: 12px; 
+            color: #eee; text-decoration: none; font-size: 0.95rem; margin-bottom: 5px;
+        }*/
+
+        .menu-item {
+            display: flex; align-items: center; gap: 15px;
+            padding: 8px;
+            color: #ccc; text-decoration: none;
+            border-radius: 12px;
+            margin-bottom: 5px;
+            transition: 0.3s;
+            font-size: 1.05rem;
+        }
+
+        .menu-item:hover {
+            background: var(--glass);
+            color: var(--primary);
+            transform: translateX(-5px);
+        }
+
+        .inst-link { 
+            font-weight: 500; color: white; text-decoration: none; 
+            font-size: 0.8rem; opacity: 0.7; transition: 0.3s;
+            text-transform: uppercase; display: flex; flex-direction: column; align-items: center; gap: 4px;
+        }
+        .inst-link:hover { opacity: 1; transform: translateY(-2px); }
+
+        /* --- MAIN CONTENT --- */
+        .main-content { 
+            margin: 90px auto 40px; 
+            width: 1200px; max-width: 92%; 
+        }
+
+        .profile-status { 
+            background: #111; border: 1px solid rgba(211, 47, 47, 0.3); 
+            border-radius: 12px; padding: 15px; margin-bottom: 25px;
+        }
+        .progress-container { width: 100%; height: 6px; background: #222; border-radius: 10px; margin: 10px 0; }
+        .progress-bar { width: 27%; height: 100%; background: var(--primary); border-radius: 10px; }
+
+        h2.section-title { 
+            margin-bottom: 20px; font-family: var(--font-serif); 
+            font-size: 1.8rem; letter-spacing: -0.5px;
+        }
+
+        /* --- GRID & CARDS --- */
+        .feed-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
+            gap: 20px; 
+        }
+
+        .profile-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: 0.4s;
+            border: 1px solid #222;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            height: 100%; /* Force toutes les cartes à avoir la même hauteur */
+        }
+
+        .profile-card img, .card-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Recadre l'image (paysage ou portrait) pour remplir le cadre */
+            object-position: center top; /* Garde le haut du visage visible si possible */
+            display: block;
+        }
+
+        .card-img-container {
+            width: 100%;
+            overflow: hidden;
+            background: #222; /* Fond neutre pendant le chargement */
+        }
+
+        .profile-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(211, 47, 47, 0.2);
+        }
+
+
+        .card-img { width: 100%; height: 300px; object-fit: cover; }
+        .card-info { padding: 12px; }
+        .card-name { font-size: 1.1rem; font-weight: 700; }
+        .card-meta { color: #999; font-size: 0.8rem; margin-bottom: 12px; }
+        
+        .card-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .btn-card { 
+            padding: 8px 5px; border-radius: 6px; border: none; 
+            font-weight: 600; cursor: pointer; font-size: 0.75rem; 
+            text-align: center; text-decoration: none; transition: 0.2s;
+        }
+        .btn-view { background: #2a2a2a; color: white; }
+        .btn-contact { background: var(--primary); color: white; }
+
+        .social-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 10px 5%;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(211, 47, 47, 0.2);
+            text-align: center;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            z-index: 999;
+        }
+
+        .social-footer p {
+            color: #888;
+            /* Font-size responsive: min 10px, idéal 2.5vw, max 14px */
+            font-size: clamp(10px, 2.5vw, 14px);
+            letter-spacing: 0.5px;
+            margin: 0;
+        }
+
+        /* État masqué */
+        .social-footer.hidden {
+            opacity: 0;
+            transform: translateY(20px);
+            pointer-events: none;
+        }
+
+        .mobile-dropdown {
+            display: none; position: absolute; top: 70px; left: 0; width: 100%;
+            background: #000; border-bottom: 1px solid var(--primary); padding: 10px 0;
+        }
+        .mobile-dropdown.active { display: block; }
+        .mobile-dropdown .menu-item { padding-left: 5%; }
+
+        /* --- MOBILE ADAPTATION --- */
+        @media (max-width: 1024px) {
+            .nav-center { display: none; }
+            .mobile-menu-toggle { display: block; }
+            .brand-name { font-size: 1.1rem; }
+            .search-bar { display: none; }
+            .search-icon-mobile { display: block; }
+            
+            .search-mode-active .nav-left, .search-mode-active .mobile-menu-toggle, .search-mode-active .user-mini-img { display: none !important; }
+            .search-mode-active .search-bar { display: flex; width: 80vw; }
+
+            .main-content { margin-top: 85px; }
+            h2.section-title { font-size: 1.3rem; margin-bottom: 15px; }
+            
+            .profile-status { padding: 12px; font-size: 0.85rem; }
+            
+            .feed-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .card-img { height: 180px; }
+            .card-info { padding: 8px; }
+            .card-name { font-size: 0.9rem; }
+            .card-meta { font-size: 0.7rem; margin-bottom: 8px; }
+            
+            .btn-card { font-size: 0.65rem; padding: 6px 2px; }
+            
+        }
+
+        @media (max-width: 480px) {
+        /*@media screen and (min-width: 481px) and (max-width: 768px) {    */
+            .side-menu { width: 70%; }
+            .status-header{
+                font-size: 12px;
+            }
+            .status-footer a{
+                font-size: 12px;
+            }
+        }
+
+        /*--- TABLET ADAPTAION ---*/
+        @media (min-width: 1500px) {
+            .side-menu { width: 90%; }
+        }
+
+        /* 1. PC (4 colonnes) */
+        @media (min-width: 1025px) {
+            .feed-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 20px;
+            }
+            .card-img-container {
+                height: 20em; /* Hauteur fixe sur PC */
+            }
+        }
+
+        /* 2. TABLETTES (3 colonnes) */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .feed-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 15px;
+            }
+            .card-img-container {
+                height: 18em; /* Hauteur fixe sur Tablette */
+            }
+        }
+
+
+        /* 3. MOBILE (2 colonnes) */
+        @media (max-width: 768px) {
+            .feed-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            .card-img-container {
+                height: 14em; /* Hauteur fixe sur Mobile (votre 'b em') */
+            }
+            .main-content {
+                max-width: 96%; /* Plus d'espace sur petit écran */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar" id="navbar">
+        <div class="mobile-menu-toggle" id="left-toggle" onclick="toggleLeftMenu()">
+            <i class="fas fa-chevron-right"></i>
+        </div>
+
+        <div class="nav-left">
+            <img src="assets/logo2.png" class="nav-logo" alt="Logo">
+            <span class="brand-name">BL Alliance</span>
+        </div>
+        
+        <div class="nav-center">
+<!--             <a href="#" class="inst-link">Accueil</a>
+            <a href="#" class="inst-link">Institution</a>
+            <a href="#" class="inst-link">Services</a>
+            <a href="#" class="inst-link">Contact</a> -->
+
+
+            <a href="#" class="menu-item inst-link"><span class="emoji">🏠</span><span>Accueil</span></a>
+            <a href="#" class="menu-item inst-link"><span class="emoji">👥</span><span>Réseau</span></a>
+            <a href="#" class="menu-item inst-link"><span class="emoji">💬</span><span>Messages</span></a>
+            <a href="#" class="menu-item inst-link"><span class="emoji">🔔</span><span>Notifications</span></a>
+            <a href="faq.html" class="menu-item inst-link"><span class="emoji">❓</span><span>F.A.Q</span></a>
+
+        </div>
+
+        <div class="nav-right">
+            <i class="fas fa-search search-icon-mobile" onclick="enableSearch()"></i>
+            <div class="search-bar" id="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Rechercher..." id="search-input" onfocus="this.parentElement.classList.add('focus-active')" onblur="disableSearch()">
+            </div>
+            
+            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&q=80" class="user-mini-img" alt="Me">
+            <i class="fas fa-ellipsis-v menu-dots" onclick="toggleRightMenu()"></i> 
+        </div>
+
+        <div class="mobile-dropdown" id="left-dropdown">
+<!--             <a href="#" class="menu-item">Accueil</a>
+            <a href="#" class="menu-item">Institution</a>
+            <a href="#" class="menu-item">Services</a>
+            <a href="#" class="menu-item">Contact</a> -->
+
+
+            <a href="#" class="menu-item inst-link"><span class="emoji">🏠</span><span>Accueil</span></a>
+            <a href="#" class="menu-item inst-link"><span class="emoji">👥</span><span>Réseau</span></a>
+            <a href="#" class="menu-item inst-link"><span class="emoji">💬</span><span>Messages</span></a>
+            <a href="#" class="menu-item inst-link"><span class="emoji">🔔</span><span>Notifications</span></a>
+            <a href="faq.html" class="menu-item inst-link"><span class="emoji">❓</span><span>Foire Aux Questions</span></a>
+
+        </div>
+    </nav>
+
+<!--     <div class="side-menu" id="right-menu">
+        <a href="#" class="menu-item"><i class="fas fa-user-edit"></i> Profil</a>
+        <a href="#" class="menu-item"><i class="fas fa-heart"></i> Affinités</a>
+        <a href="#" class="menu-item"><i class="fas fa-wallet"></i> Portefeuille</a>
+        <a href="#" class="menu-item" style="color:var(--primary)"><i class="fas fa-sign-out-alt"></i> Quitter</a>
+    </div> -->
+
+
+    <div class="side-menu" id="right-menu">
+        <!-- <div style="text-align: right; margin-bottom: 25px;">
+            <i class="fas fa-times" style="font-size: 1.6rem; cursor: pointer;" onclick="toggleSideMenu()"></i>
+        </div> -->
+        <a href="edit-profile.html" class="menu-item"><i class="fas fa-user-edit"></i> Éditer mon profil</a>
+        <a href="affinites.html" class="menu-item"><i class="fas fa-heart" style="color:var(--primary)"></i> Mon Idéal</a>
+        <!-- <a href="matchs.html" class="menu-item"><i class="fas fa-fire"></i> Mes Matchs / Favoris</a> -->
+        <a href="matchs.html" class="menu-item"><i class="fas fa-envelope"></i> Correspondants</a>
+        <!-- <a href="verification.html" class="menu-item"><i class="fas fa-id-card"></i> Vérification (Badge)</a> -->
+        <a href="portefeuille.html" class="menu-item"><i class="fas fa-wallet"></i> Portefeuille</a>
+        <hr style="border: 0; border-top: 1px solid #333; margin: 20px 0;">
+        <a href="security.html" class="menu-item"><i class="fas fa-shield-alt"></i> Conseils Sécurité</a>
+        <a href="about.html" class="menu-item"><i class="fas fa-info-circle"></i> À propos</a>
+        <a href="index.html" class="menu-item" style="color: var(--primary); margin-top: 20px;">
+            <i class="fas fa-sign-out-alt"></i> Déconnexion
+        </a>
+    </div>
+
+    <main class="main-content">
+        <!-- <div class="profile-status">
+            <div style="display: flex; justify-content: space-between;">
+                <span>Profil : <strong>27%</strong></span>
+                <a href="#" style="color:var(--primary); text-decoration:none;">Compléter →</a>
+            </div>
+            <div class="progress-container"><div class="progress-bar"></div></div>
+        </div> -->
+
+        <div class="profile-status">
+            <div class="status-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <span style="font-weight: 500;">Profil complété à <strong style="color:var(--primary)">27%</strong></span>
+                <a href="edit-profile.html" class="status-link" style="color: var(--primary); text-decoration: none; font-weight: 600;">Compléter mon profil →</a>
+            </div>
+            <div class="progress-container">
+                <div class="progress-bar"></div>
+            </div>
+            <div class="status-footer" style="margin-top: 15px; font-size: 0.9rem; display: flex; align-items: center; gap: 8px;">
+                <i class="fas fa-heart" style="color:var(--primary)"></i>
+                <a href="affinites.html" style="color: #aaa; text-decoration: underline;">Quel type de partenaire cherchez-vous ?</a>
+            </div>
+        </div>
+
+        <h2 class="section-title">Découvrir</h2>
+
+        <div class="feed-grid">
+
+            <!-- <div class="profile-card">
+                <div class="card-img-container">
+                    <img src="assets/aeff/aeff.png" alt="Marc L.">
+                </div>
+                <div class="card-info">
+                    <div class="card-name">Marc L.</div>
+                    <div class="card-meta">27 ans • Kinshasa</div>
+                    <div class="card-actions">
+                        <a href="#" class="btn-card btn-view">Voir profil</a>
+                        <a href="paiement-connexion.html" class="btn-card btn-contact">Connecter</a>
+                    </div>
+                </div>
+            </div> -->
+
+            <div class="profile-card">
+                <div class="card-img-container">
+                    <img src="https://images.unsplash.com/photo-1523824921871-d6f1a15151f1?auto=format&fit=crop&w=400&q=80" alt="Aminata">
+                </div>
+                <div class="card-info">
+                    <div class="card-name">Aminata K.</div>
+                    <div class="card-meta">23 ans • Goma</div>
+                    <div class="card-actions">
+                        <a href="#" class="btn-card btn-view">Voir profil</a>
+                        <a href="paiement-connexion.html" class="btn-card btn-contact">Connecter</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div class="profile-card">
+                <div class="card-img-container">
+                    <img src="assets/aeff/aeff2.png" alt="Marc L.">
+                </div>
+                <div class="card-info">
+                    <div class="card-name">Marc L.</div>
+                    <div class="card-meta">27 ans • Kinshasa</div>
+                    <div class="card-actions">
+                        <a href="#" class="btn-card btn-view">Voir profil</a>
+                        <a href="paiement-connexion.html" class="btn-card btn-contact">Connecter</a>
+                    </div>
+                </div>
+            </div> -->
+
+            <div class="profile-card">
+                <div class="card-img-container">
+                    <img src="https://images.unsplash.com/photo-1506277886164-e25aa3f4ef7f?auto=format&fit=crop&w=400&q=80" alt="Christian">
+                </div>
+                <div class="card-info">
+                    <div class="card-name">Christian M.</div>
+                    <div class="card-meta">30 ans • Bukavu</div>
+                    <div class="card-actions">
+                        <a href="#" class="btn-card btn-view">Voir profil</a>
+                        <a href="paiement-connexion.html" class="btn-card btn-contact">Connecter</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div class="profile-card">
+                <div class="card-img-container">
+                    <img src="assets/aeff/aeff2.png" alt="Marc L.">
+                </div>
+                <div class="card-info">
+                    <div class="card-name">Marc L.</div>
+                    <div class="card-meta">27 ans • Kinshasa</div>
+                    <div class="card-actions">
+                        <a href="#" class="btn-card btn-view">Voir profil</a>
+                        <a href="paiement-connexion.html" class="btn-card btn-contact">Connecter</a>
+                    </div>
+                </div>
+            </div> -->
+
+            <div class="profile-card">
+                <div class="card-img-container">
+                    <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&w=400&q=80" alt="Divine">
+                </div>
+                <div class="card-info">
+                    <div class="card-name">Divine Z.</div>
+                    <div class="card-meta">24 ans • Bukavu</div>
+                    <div class="card-actions">
+                        <a href="#" class="btn-card btn-view">Voir profil</a>
+                        <a href="paiement-connexion.html" class="btn-card btn-contact">Connecter</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-card">
+                <div class="card-img-container">
+                    <img src="https://images.unsplash.com/photo-1522529599102-193c0d76b5b6?auto=format&fit=crop&w=400&q=80" alt="Isaac">
+                </div>
+                <div class="card-info">
+                    <div class="card-name">Isaac B.</div>
+                    <div class="card-meta">32 ans • Kinshasa</div>
+                    <div class="card-actions">
+                        <a href="#" class="btn-card btn-view">Voir profil</a>
+                        <a href="paiement-connexion.html" class="btn-card btn-contact">Connecter</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-card">
+                <div class="card-img-container">
+                    <img src="https://images.unsplash.com/photo-1589156280159-27698a70f29e?auto=format&fit=crop&w=400&q=80" alt="Ruth">
+                </div>
+                <div class="card-info">
+                    <div class="card-name">Ruth A.</div>
+                    <div class="card-meta">25 ans • Goma</div>
+                    <div class="card-actions">
+                        <a href="#" class="btn-card btn-view">Voir profil</a>
+                        <a href="paiement-connexion.html" class="btn-card btn-contact">Connecter</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-card">
+                <div class="card-img-container">
+                    <img src="https://images.unsplash.com/photo-1463453091185-61582044d556?auto=format&fit=crop&w=400&q=80" alt="Blaise">
+                </div>
+                <div class="card-info">
+                    <div class="card-name">Blaise J.</div>
+                    <div class="card-meta">30 ans • Kinshasa</div>
+                    <div class="card-actions">
+                        <a href="#" class="btn-card btn-view">Voir profil</a>
+                        <a href="paiement-connexion.html" class="btn-card btn-contact">Connecter</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-card">
+                <div class="card-img-container">
+                    <img src="https://images.unsplash.com/photo-1531123414780-f74242c2b052?auto=format&fit=crop&w=400&q=80" alt="Sarah">
+                </div>
+                <div class="card-info">
+                    <div class="card-name">Sarah P.</div>
+                    <div class="card-meta">26 ans • Bukavu</div>
+                    <div class="card-actions">
+                        <a href="#" class="btn-card btn-view">Voir profil</a>
+                        <a href="paiement-connexion.html" class="btn-card btn-contact">Connecter</a>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </main>
+
+    <footer class="social-footer" id="dynamicFooter">
+        <p>© 2026 BL Alliance — Agence de Courtage Matrimonial. Tous droits réservés.</p>
+    </footer>
+
+    <script>
+        function toggleLeftMenu() {
+            const drop = document.getElementById('left-dropdown');
+            const toggle = document.getElementById('left-toggle');
+            drop.classList.toggle('active');
+            toggle.classList.toggle('active');
+        }
+
+        function toggleRightMenu() {
+            document.getElementById('right-menu').classList.toggle('active');
+        }
+
+        function enableSearch() {
+            document.getElementById('navbar').classList.add('search-mode-active');
+            document.getElementById('search-input').focus();
+        }
+
+        function disableSearch() {
+            const input = document.getElementById('search-input');
+            input.parentElement.classList.remove('focus-active');
+            
+            // Correction spécifique demandée : 
+            // On attend 150ms pour laisser les événements tactiles passer avant de masquer le mode recherche
+            setTimeout(() => {
+                document.getElementById('navbar').classList.remove('search-mode-active');
+                input.value = ""; // Réinitialise la recherche si on annule
+            }, 150);
+        }
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.navbar') && !e.target.closest('.side-menu')) {
+                document.getElementById('right-menu').classList.remove('active');
+                document.getElementById('left-dropdown').classList.remove('active');
+                document.getElementById('left-toggle').classList.remove('active');
+            }
+        });
+
+        // Script à ajouter avant la balise de fermeture </body>
+        document.querySelectorAll('.profile-card img').forEach(img => {
+            img.addEventListener('load', function() {
+                // Si l'image est plus large que haute (paysage)
+                if (this.naturalWidth > this.naturalHeight) {
+                    this.style.objectPosition = "center"; 
+                }
+            });
+        });
+
+        let lastScrollTop = 0;
+        const footer = document.getElementById('dynamicFooter');
+
+        window.addEventListener('scroll', () => {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            if (scrollTop > lastScrollTop && scrollTop > 50) {
+                // Scroll vers le bas -> Masquer
+                footer.classList.add('hidden');
+            } else {
+                // Scroll vers le haut -> Afficher
+                footer.classList.remove('hidden');
+            }
+            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+        }, { passive: true });
+    </script>
+</body>
+</html>
+
