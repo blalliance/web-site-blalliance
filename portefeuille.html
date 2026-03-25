@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Mon Portefeuille | BL Alliance</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #D32F2F;
+            --primary-glow: rgba(211, 47, 47, 0.4);
+            --dark-bg: #0a0a0a;
+            --card-bg: #141414;
+            --glass: rgba(255, 255, 255, 0.08);
+            --font-main: 'Montserrat', sans-serif;
+            --font-serif: 'Playfair Display', serif;
+            --accent: #FFD700;
+            --success: #4CAF50;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            background-color: var(--dark-bg);
+            color: white;
+            font-family: var(--font-main);
+            overflow-x: hidden;
+            padding-bottom: 80px; /* Espace pour le footer */
+        }
+
+        /* --- RÉUTILISATION NAVBAR (Identique à votre code) --- */
+        .navbar {
+            height: 70px; background: rgba(0, 0, 0, 0.95); backdrop-filter: blur(15px);
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 5%; position: fixed; top: 0; width: 100%; z-index: 1000;
+            border-bottom: 1px solid rgba(211, 47, 47, 0.2);
+        }
+        .nav-left { display: flex; align-items: center; gap: 10px; }
+        .nav-logo { height: 35px; }
+        .brand-name { font-family: var(--font-serif); font-weight: 700; font-size: 1.4rem; color: var(--primary); }
+        .nav-right { display: flex; align-items: center; gap: 15px; }
+        .user-mini-img { width: 35px; height: 35px; border-radius: 50%; border: 2px solid var(--primary); object-fit: cover; }
+        .menu-dots { font-size: 1.6rem; cursor: pointer; color: #fff; }
+
+        /* --- PORTEFEUILLE CONTENT --- */
+        /*.wallet-container {
+            margin: 90px auto 40px;
+            width: 1000px; max-width: 92%;
+        }*/
+
+        .wallet-container {
+            margin: 85px auto 0; /* On réduit la marge du bas */
+            width: 1000px; 
+            max-width: 92%;
+            height: calc(100vh - 100px); /* Calcule la hauteur totale moins la navbar/footer */
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Solde Header */
+        .balance-card {
+            background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
+            border: 1px solid var(--primary);
+            border-radius: 25px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .balance-label { font-size: 0.9rem; color: #888; text-transform: uppercase; letter-spacing: 1px; }
+        .balance-amount { font-size: 2.5rem; font-weight: 800; color: var(--accent); margin: 10px 0; }
+        
+        .quota-box {
+            display: inline-block;
+            background: rgba(211, 47, 47, 0.1);
+            padding: 8px 15px;
+            border-radius: 12px;
+            border: 1px solid var(--primary-glow);
+            font-size: 0.85rem;
+            color: #eee;
+        }
+
+        /* --- HISTORIQUE --- */
+        .history-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 20px;
+        }
+        .history-header h2 { font-family: var(--font-serif); font-size: 1.5rem; }
+
+        .history-list {
+            flex: 1; /* Force la liste à s'étirer pour remplir tout le vide en bas */
+            display: flex; 
+            flex-direction: column; 
+            gap: 12px;
+            overflow-y: auto;
+            padding-bottom: 100px; /* Espace de sécurité pour ne pas être caché par le footer */
+            padding-right: 5px;
+        }
+
+
+
+        /* Personnalisation Scrollbar */
+        .history-list::-webkit-scrollbar { width: 4px; }
+        .history-list::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+
+        .transaction-item {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-left: 4px solid #333;
+            transition: 0.3s;
+        }
+        .transaction-item.boost { border-left-color: var(--accent); }
+        .transaction-item.connexion { border-left-color: var(--primary); }
+        .transaction-item.inscription { border-left-color: var(--success); }
+
+        .trans-info { display: flex; align-items: center; gap: 15px; }
+        .trans-icon {
+            width: 45px; height: 45px; border-radius: 12px;
+            background: #1a1a1a; display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem;
+        }
+        .trans-details h4 { font-size: 0.95rem; margin-bottom: 2px; }
+        .trans-details p { font-size: 0.75rem; color: #777; }
+
+        .trans-amount { text-align: right; }
+        .amount-val { font-weight: 700; font-size: 1rem; display: block; }
+        .status-pill { font-size: 0.65rem; padding: 2px 8px; border-radius: 5px; background: #222; color: #aaa; }
+
+        /* --- FOOTER IDENTIQUE --- */
+        .social-footer {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            padding: 15px 5%; background: rgba(10, 10, 10, 0.9);
+            backdrop-filter: blur(10px); border-top: 1px solid rgba(211, 47, 47, 0.2);
+            text-align: center; z-index: 999;
+        }
+        .social-footer p { color: #888; font-size: clamp(10px, 2.5vw, 14px); margin: 0; }
+
+        /* --- RESPONSIVE SMARTPHONE --- */
+        @media (max-width: 768px) {
+            .balance-amount { font-size: 2rem; }
+            .transaction-item { padding: 12px; }
+            .trans-icon { width: 38px; height: 38px; font-size: 1rem; }
+            .trans-details h4 { font-size: 0.85rem; }
+            .amount-val { font-size: 0.9rem; }
+            .history-list { 
+                    max-height: none; /* On annule l'ancienne limite */
+                    padding-bottom: 120px; /* On augmente un peu pour le confort sur smartphone */
+                }
+        }
+
+        @media (max-width: 480px) {
+            .nav-left .brand-name { font-size: 1.1rem; }
+            .balance-card { padding: 20px; border-radius: 20px; }
+            .quota-box { font-size: 0.75rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-left">
+            <img src="assets/logo2.png" class="nav-logo" alt="Logo">
+            <span class="brand-name" style="font-family: 'Century Gothic'">BL Alliance</span>
+        </div>
+        <div class="nav-right" style="display: none;">
+            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&q=80" class="user-mini-img" alt="Me">
+            <i class="fas fa-ellipsis-v menu-dots"></i> 
+        </div>
+    </nav>
+
+    <main class="wallet-container">
+        
+        <section class="balance-card">
+            <p class="balance-label">Consommation Totale</p>
+            <h1 class="balance-amount">165.000,00 FC</h1>
+            <div class="quota-box">
+                <i class="fas fa-info-circle"></i> Quota Gratuit : <strong>Utilisé (1/1)</strong>
+            </div>
+        </section>
+
+        <div class="history-header">
+            <h2 style="font-family: 'Century Gothic">Historique de transactions</h2>
+            <i class="fas fa-sliders-h" style="color: #666; display: none;"></i>
+        </div>
+
+        <div class="history-list">
+            
+            <div class="transaction-item boost">
+                <div class="trans-info">
+                    <div class="trans-icon" style="color:var(--accent)"><i class="fas fa-rocket"></i></div>
+                    <div class="trans-details">
+                        <h4>Boost Profil - Standard 7j</h4>
+                        <p>Aujourd'hui, 09:41</p>
+                    </div>
+                </div>
+                <div class="trans-amount">
+                    <span class="amount-val">- 45.000 FC</span>
+                    <span class="status-pill">Réussi</span>
+                </div>
+            </div>
+
+            <div class="transaction-item connexion">
+                <div class="trans-info">
+                    <div class="trans-icon" style="color:var(--primary)"><i class="fas fa-link"></i></div>
+                    <div class="trans-details">
+                        <h4>Mise en relation : Sarah P.</h4>
+                        <p>Hier, 14:20</p>
+                    </div>
+                </div>
+                <div class="trans-amount">
+                    <span class="amount-val">- 5.000 FC</span>
+                    <span class="status-pill">Réussi</span>
+                </div>
+            </div>
+
+            <div class="transaction-item connexion">
+                <div class="trans-info">
+                    <div class="trans-icon" style="color:var(--primary)"><i class="fas fa-link"></i></div>
+                    <div class="trans-details">
+                        <h4>Mise en relation : Sarah P.</h4>
+                        <p>Hier, 14:20</p>
+                    </div>
+                </div>
+                <div class="trans-amount">
+                    <span class="amount-val">- 5.000 FC</span>
+                    <span class="status-pill">Réussi</span>
+                </div>
+            </div>
+
+
+            <div class="transaction-item connexion">
+                <div class="trans-info">
+                    <div class="trans-icon" style="color:var(--primary)"><i class="fas fa-link"></i></div>
+                    <div class="trans-details">
+                        <h4>Mise en relation : Sarah P.</h4>
+                        <p>Hier, 14:20</p>
+                    </div>
+                </div>
+                <div class="trans-amount">
+                    <span class="amount-val">- 5.000 FC</span>
+                    <span class="status-pill">Réussi</span>
+                </div>
+            </div>
+
+            <div class="transaction-item connexion">
+                <div class="trans-info">
+                    <div class="trans-icon" style="color:var(--primary)"><i class="fas fa-link"></i></div>
+                    <div class="trans-details">
+                        <h4>Mise en relation : Sarah P.</h4>
+                        <p>Hier, 14:20</p>
+                    </div>
+                </div>
+                <div class="trans-amount">
+                    <span class="amount-val">- 5.000 FC</span>
+                    <span class="status-pill">Réussi</span>
+                </div>
+            </div>
+
+            <div class="transaction-item connexion">
+                <div class="trans-info">
+                    <div class="trans-icon" style="color:var(--primary)"><i class="fas fa-link"></i></div>
+                    <div class="trans-details">
+                        <h4>Mise en relation : Sarah P.</h4>
+                        <p>Hier, 14:20</p>
+                    </div>
+                </div>
+                <div class="trans-amount">
+                    <span class="amount-val">- 5.000 FC</span>
+                    <span class="status-pill">Réussi</span>
+                </div>
+            </div>
+
+            <div class="transaction-item connexion">
+                <div class="trans-info">
+                    <div class="trans-icon" style="color:var(--primary)"><i class="fas fa-link"></i></div>
+                    <div class="trans-details">
+                        <h4>Mise en relation : Sarah P.</h4>
+                        <p>Hier, 14:20</p>
+                    </div>
+                </div>
+                <div class="trans-amount">
+                    <span class="amount-val">- 5.000 FC</span>
+                    <span class="status-pill">Réussi</span>
+                </div>
+            </div>
+
+            <div class="transaction-item connexion">
+                <div class="trans-info">
+                    <div class="trans-icon" style="color:var(--primary)"><i class="fas fa-link"></i></div>
+                    <div class="trans-details">
+                        <h4>Mise en relation : Sarah P.</h4>
+                        <p>Hier, 14:20</p>
+                    </div>
+                </div>
+                <div class="trans-amount">
+                    <span class="amount-val">- 5.000 FC</span>
+                    <span class="status-pill">Réussi</span>
+                </div>
+            </div>
+
+            <div class="transaction-item connexion">
+                <div class="trans-info">
+                    <div class="trans-icon" style="color:var(--primary)"><i class="fas fa-link"></i></div>
+                    <div class="trans-details">
+                        <h4>Mise en relation : Ruth A.</h4>
+                        <p>22 Mars, 18:05</p>
+                    </div>
+                </div>
+                <div class="trans-amount">
+                    <span class="amount-val">- 5.000 FC</span>
+                    <span class="status-pill">Réussi</span>
+                </div>
+            </div>
+
+            <div class="transaction-item">
+                <div class="trans-info">
+                    <div class="trans-icon" style="color:#aaa"><i class="fas fa-gift"></i></div>
+                    <div class="trans-details">
+                        <h4>Premier Contact Gratuit</h4>
+                        <p>21 Mars, 10:30</p>
+                    </div>
+                </div>
+                <div class="trans-amount">
+                    <span class="amount-val" style="color:var(--success)">OFFERT</span>
+                    <span class="status-pill">Quota 1/1</span>
+                </div>
+            </div>
+
+            <div class="transaction-item boost">
+                <div class="trans-info">
+                    <div class="trans-icon" style="color:var(--accent)"><i class="fas fa-rocket"></i></div>
+                    <div class="trans-details">
+                        <h4>Boost Profil - Flash 24h</h4>
+                        <p>15 Mars, 08:00</p>
+                    </div>
+                </div>
+                <div class="trans-amount">
+                    <span class="amount-val">- 15.000 FC</span>
+                    <span class="status-pill">Expiré</span>
+                </div>
+            </div>
+
+            <div class="transaction-item inscription">
+                <div class="trans-info">
+                    <div class="trans-icon" style="color:var(--success)"><i class="fas fa-user-check"></i></div>
+                    <div class="trans-details">
+                        <h4>Frais d'Inscription BL Alliance</h4>
+                        <p>10 Mars, 11:15</p>
+                    </div>
+                </div>
+                <div class="trans-amount">
+                    <span class="amount-val">- 15.000 FC</span>
+                    <span class="status-pill">Initial</span>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="social-footer" id="dynamicFooter">
+        <p>© 2026 BL Alliance — Agence de Courtage Matrimonial. Tous droits réservés.</p>
+    </footer>
+
+    <script>
+        // Effet de scroll du footer (identique à votre code)
+        let lastScrollTop = 0;
+        const footer = document.getElementById('dynamicFooter');
+
+        window.addEventListener('scroll', () => {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            if (scrollTop > lastScrollTop && scrollTop > 50) {
+                footer.style.opacity = "0";
+                footer.style.transform = "translateY(20px)";
+            } else {
+                footer.style.opacity = "1";
+                footer.style.transform = "translateY(0)";
+            }
+            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+        }, { passive: true });
+    </script>
+</body>
+</html>

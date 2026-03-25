@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications | BL Alliance</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #D32F2F;
+            --primary-hover: #B71C1C;
+            --dark: #0a0a0a;
+            --card-bg: #141414;
+            --text: #ffffff;
+            --border: rgba(211, 47, 47, 0.2);
+            --unread: rgba(211, 47, 47, 0.05);
+        }
+
+        body {
+            background-color: var(--dark);
+            color: var(--text);
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding-top: 80px;
+            padding-bottom: 100px;
+        }
+
+        /* --- HEADER --- */
+        header {
+            position: fixed;
+            top: 0; width: 100%; z-index: 1000;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 5%;
+            background: rgba(0,0,0,0.95);
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(10px);
+            box-sizing: border-box;
+        }
+
+        .logo-container { display: flex; align-items: center; gap: 12px; }
+        .logo-container img { height: 40px; }
+        .brand-name { color: var(--primary); font-size: 1.8rem; font-weight: 900; text-transform: uppercase; margin-left: 10px; }
+
+        /* --- CONTAINER --- */
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .page-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .mark-read {
+            font-size: 0.8rem;
+            color: var(--primary);
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            text-decoration: none;
+        }
+
+        /* --- NOTIFICATION LIST --- */
+        .notification-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .notification-item {
+            background: var(--card-bg);
+            border: 1px solid #222;
+            padding: 15px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: 0.3s;
+            cursor: pointer;
+            position: relative;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .notification-item:hover {
+            border-color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .notification-item.unread {
+            background: var(--unread);
+            border-left: 4px solid var(--primary);
+        }
+
+        /* Icon Types */
+        .notif-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .icon-msg { background: rgba(30, 144, 255, 0.1); color: #1e90ff; }
+        .icon-visit { background: rgba(255, 215, 0, 0.1); color: #ffd700; }
+        .icon-heart { background: rgba(211, 47, 47, 0.1); color: var(--primary); }
+
+        /* Content */
+        .notif-content {
+            flex-grow: 1;
+        }
+
+        .notif-text {
+            font-size: 0.95rem;
+            margin-bottom: 4px;
+            line-height: 1.4;
+        }
+
+        .notif-text strong {
+            color: var(--primary);
+        }
+
+        .notif-time {
+            font-size: 0.75rem;
+            color: #666;
+        }
+
+        .unread-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--primary);
+            border-radius: 50%;
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        /* --- FOOTER --- */
+        .social-footer {
+            position: fixed;
+            bottom: 0; left: 0; width: 100%;
+            padding: 15px 0;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid var(--border);
+            text-align: center;
+            z-index: 999;
+        }
+        .social-footer p { color: #888; font-size: 13px; margin: 0; }
+
+        @media (max-width: 600px) {
+            .page-title { font-size: 1.6rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <a href="index.html" style="display: flex; align-items: center; text-decoration: none;">
+                <img src="assets/logo2.png" alt="BL Alliance">
+                <span class="brand-name">BL Alliance</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="page-title">
+            Notifications
+            <a href="#" class="mark-read" onclick="markAllAsRead()">Tout marquer comme lu</a>
+        </div>
+
+        <div class="notification-list">
+            
+            <a href="messages.html" class="notification-item unread">
+                <div class="notif-icon icon-msg">
+                    <i class="fas fa-comment-alt"></i>
+                </div>
+                <div class="notif-content">
+                    <div class="notif-text"><strong>Sarah M.</strong> vous a envoyé un nouveau message.</div>
+                    <div class="notif-time">Il y a 5 minutes</div>
+                </div>
+                <div class="unread-dot"></div>
+            </a>
+
+            <a href="others_profil.html" class="notification-item unread">
+                <div class="notif-icon icon-heart">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <div class="notif-content">
+                    <div class="notif-text"><strong>Marc K.</strong> a flashé sur votre profil !</div>
+                    <div class="notif-time">Il y a 2 heures</div>
+                </div>
+                <div class="unread-dot"></div>
+            </a>
+
+            <a href="others_profil.html" class="notification-item">
+                <div class="notif-icon icon-visit">
+                    <i class="fas fa-eye"></i>
+                </div>
+                <div class="notif-content">
+                    <div class="notif-text">Une personne de <strong>Goma</strong> a visité votre profil.</div>
+                    <div class="notif-time">Hier à 18:30</div>
+                </div>
+            </a>
+
+            <a href="mon_ideal.html" class="notification-item">
+                <div class="notif-icon icon-heart">
+                    <i class="fas fa-magic"></i>
+                </div>
+                <div class="notif-content">
+                    <div class="notif-text">Nouveaux profils correspondants à votre <strong>Idéal</strong> disponibles.</div>
+                    <div class="notif-time">Hier à 10:15</div>
+                </div>
+            </a>
+
+            <a href="messages.html" class="notification-item">
+                <div class="notif-icon icon-msg">
+                    <i class="fas fa-comment-alt"></i>
+                </div>
+                <div class="notif-content">
+                    <div class="notif-text"><strong>Jean Dupont</strong> : "C'était un plaisir d'échanger avec vous..."</div>
+                    <div class="notif-time">Il y a 2 jours</div>
+                </div>
+            </a>
+
+        </div>
+    </div>
+
+    <footer class="social-footer">
+        <p>© 2026 BL Alliance — Agence de Courtage Matrimonial. Tous droits réservés.</p>
+    </footer>
+
+    <script>
+        function markAllAsRead() {
+            const unreadItems = document.querySelectorAll('.notification-item.unread');
+            const dots = document.querySelectorAll('.unread-dot');
+            
+            unreadItems.forEach(item => item.classList.remove('unread'));
+            dots.forEach(dot => dot.remove());
+            
+            alert("Toutes les notifications ont été marquées comme lues.");
+        }
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guide de Sécurité | BL Alliance</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #D32F2F;
+            --dark: #0a0a0a;
+            --card-bg: #141414;
+            --text: #ffffff;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            background-color: var(--dark);
+            color: var(--text);
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding-top: 100px;
+        }
+
+        /* --- HEADER --- */
+        header {
+            position: fixed;
+            top: 0; width: 100%; z-index: 1000;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 5%;
+            background: rgba(0,0,0,0.95);
+            border-bottom: 1px solid rgba(211, 47, 47, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-container img {
+            height: 40px;
+            width: auto;
+        }
+
+        .brand-name {
+            color: var(--primary);
+            font-size: 2rem;
+            font-weight: 900;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-family: 'Century Gothic', sans-serif;
+            margin: 0px 0px 0px 10px;
+        }
+
+        .header-tag {
+            font-family: 'Playfair Display', serif;
+            color: var(--text);
+            font-weight: bold;
+            opacity: 0.6;
+            font-size: 0.9rem;
+        }
+
+        /* --- CONTENU --- */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px 120px;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            text-align: center;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        .last-update {
+            text-align: center;
+            font-size: 0.8rem;
+            color: #666;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .intro-text {
+            text-align: center;
+            margin-bottom: 50px;
+            color: #bbb;
+            font-size: 1.1rem;
+        }
+
+        /* --- STYLE ACCORDÉON --- */
+        .cgu-item {
+            background: var(--card-bg);
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #222;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .cgu-item:hover {
+            border-color: rgba(211, 47, 47, 0.5);
+        }
+
+        .cgu-header {
+            padding: 22px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            user-select: none;
+            color: #eee;
+        }
+
+        .cgu-header span {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .cgu-header i.icon-main {
+            color: var(--primary);
+            width: 20px;
+            text-align: center;
+        }
+
+        .cgu-header i.chevron {
+            color: var(--primary);
+            transition: transform 0.4s;
+            font-size: 0.8rem;
+        }
+
+        .cgu-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0, 1, 0, 1), padding 0.3s;
+            background: #0d0d0d;
+            color: #aaa;
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+        }
+
+        .cgu-item.active .cgu-content {
+            max-height: 2000px;
+            padding: 25px;
+            border-top: 1px solid #222;
+        }
+
+        .cgu-item.active .cgu-header i.chevron {
+            transform: rotate(180deg);
+        }
+
+        .cgu-content ul {
+            padding-left: 20px;
+            margin: 15px 0;
+        }
+
+        .cgu-content li {
+            margin-bottom: 10px;
+        }
+
+        .cgu-content strong {
+            color: var(--text);
+        }
+
+        /* --- FOOTER --- */
+        .social-footer {
+            position: fixed;
+            bottom: 0; left: 0; width: 100%;
+            padding: 15px 0;
+            background: rgba(10, 10, 10, 0.9);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(211, 47, 47, 0.2);
+            text-align: center;
+            z-index: 999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .social-footer p {
+            color: #888;
+            font-size: clamp(10px, 2.5vw, 14px);
+            letter-spacing: 0.5px;
+            margin: 0;
+            width: 90%;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 480px) {
+            body { padding-top: 80px; }
+            .brand-name { font-size: 1.2rem; }
+            .logo-container img { height: 32px; }
+            .header-tag { display: none; }
+            .cgu-header { padding: 18px; font-size: 0.9rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <a href="index.html" style="display: flex; align-items: center; text-decoration: none;">
+                <img src="assets/logo2.png" alt="BL Alliance">
+                <span class="brand-name">BL Alliance</span>
+            </a>
+        </div>
+        <div class="header-tag">Guide de Sécurité</div>
+    </header>
+
+    <div class="container">
+        <h1>Guide de Sécurité et Rencontres</h1>
+        <p class="last-update">Mise à jour : 23 Mars 2026</p>
+        
+        <p class="intro-text">
+            Votre sécurité est notre priorité. Ce guide vous aide à naviguer sereinement entre le monde virtuel et les rencontres réelles en RDC.
+        </p>
+
+        <div class="cgu-accordion">
+            
+            <div class="cgu-item">
+                <div class="cgu-header">
+                    <span><i class="fas fa-comment-dots icon-main"></i> 1. Communication sur la Plateforme</span>
+                    <i class="fas fa-chevron-down chevron"></i>
+                </div>
+                <div class="cgu-content">
+                    Gardez vos échanges sur le chat de <strong>BL Alliance</strong> aussi longtemps que possible. Notre plateforme est modérée pour détecter les comportements suspects. 
+                    <ul>
+                        <li>Ne partagez pas votre numéro privé trop vite.</li>
+                        <li>Méfiez-vous de ceux qui demandent immédiatement à basculer sur WhatsApp sans avoir établi un lien de confiance.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="cgu-item">
+                <div class="cgu-header">
+                    <span><i class="fas fa-money-bill-wave icon-main"></i> 2. Alerte : Demandes d'Argent</span>
+                    <i class="fas fa-chevron-down chevron"></i>
+                </div>
+                <div class="cgu-content">
+                    <strong>Ne donnez JAMAIS d'argent</strong> à une personne rencontrée en ligne, peu importe l'urgence invoquée (soins médicaux, frais de transport, problème familial). 
+                    <ul>
+                        <li>Les escrocs sentimentaux utilisent souvent l'urgence pour manipuler vos émotions.</li>
+                        <li>Signalez immédiatement tout profil vous sollicitant financièrement via notre support.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="cgu-item">
+                <div class="cgu-header">
+                    <span><i class="fas fa-map-marker-alt icon-main"></i> 3. La Première Rencontre Physique</span>
+                    <i class="fas fa-chevron-down chevron"></i>
+                </div>
+                <div class="cgu-content">
+                    Pour vos premiers rendez-vous à Bukavu, Goma ou ailleurs :
+                    <ul>
+                        <li><strong>Lieu Public :</strong> Choisissez un café, un restaurant ou un lieu fréquenté.</li>
+                        <li><strong>Transport :</strong> Soyez autonome. Ne vous faites pas récupérer à votre domicile et ne montez pas dans la voiture de l'autre pour le premier rendez-vous.</li>
+                        <li><strong>Informer un proche :</strong> Dites à un ami ou un membre de votre famille où vous allez et avec qui.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="cgu-item">
+                <div class="cgu-header">
+                    <span><i class="fas fa-shield-virus icon-main"></i> 4. Discrétion et Identité</span>
+                    <i class="fas fa-chevron-down chevron"></i>
+                </div>
+                <div class="cgu-content">
+                    Protéger votre réputation et votre identité est essentiel :
+                    <ul>
+                        <li>Ne partagez pas de photos ou de vidéos intimes. Une fois envoyées, vous perdez le contrôle de ces fichiers.</li>
+                        <li>Vérifiez la cohérence des propos de votre partenaire au fil du temps.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="cgu-item">
+                <div class="cgu-header">
+                    <span><i class="fas fa-flag icon-main"></i> 5. Quand Signaler un Profil ?</span>
+                    <i class="fas fa-chevron-down chevron"></i>
+                </div>
+                <div class="cgu-content">
+                    Aidez-nous à garder notre communauté saine. Signalez si vous constatez :
+                    <ul>
+                        <li>Un profil utilisant des photos manifestement fausses ou de célébrités.</li>
+                        <li>Des propos agressifs, harcelants ou déplacés.</li>
+                        <li>Une personne déjà mariée cherchant des aventures extraconjugales.</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <footer class="social-footer">
+        <p>© 2026 BL Alliance — Agence de Courtage Matrimonial. Tous droits réservés.</p>
+    </footer>
+
+    <script>
+        // Logique Accordéon
+        document.querySelectorAll('.cgu-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const item = header.parentElement;
+                document.querySelectorAll('.cgu-item').forEach(otherItem => {
+                    if (otherItem !== item) otherItem.classList.remove('active');
+                });
+                item.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html>
