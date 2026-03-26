@@ -185,6 +185,96 @@
         }
         .btn-save:hover { background: var(--primary-hover); transform: translateY(-3px); }
 
+
+        
+        /* --- RESET DU LIEN ET ACTIONS HEADER --- */
+        .header-actions {
+            display: flex;
+            align-items: center;
+        }
+
+        /* 4. On force aussi le reset sur le lien parent pour être sûr */
+        .btn-back-link {
+            text-decoration: none !important;
+            -webkit-tap-highlight-color: transparent;
+            outline: none !important;
+        }
+
+        /* --- BOUTON ROND --- */
+        .btn-back-circle {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 10px rgba(211, 47, 47, 0.3);
+            
+            /* 1. Supprime le rectangle gris/bleu sur Android/iOS */
+            -webkit-tap-highlight-color: transparent;
+            -webkit-tap-highlight-color: rgba(0,0,0,0);
+            
+            /* 2. Supprime la bordure de focus (souvent bleue ou orange) */
+            outline: none !important;
+            
+            /* 3. Empêche la sélection de texte parasite lors du clic répété */
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .btn-back-circle i {
+            font-size: 1.1rem;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+        /* --- EFFET HOVER (PC) --- */
+        @media (hover: hover) {
+            .btn-back-circle:hover {
+                background-color: white;
+                /*transform: scale(1.1);
+                box-shadow: 0 6px 15px rgba(255, 255, 255, 0.2);*/
+            }
+            
+            .btn-back-circle:hover i {
+                color: var(--primary);
+                /*transform: translateX(-3px);*/
+            }
+        }
+
+        /* --- EFFET CLIC / ACTIVE (Mobile & Tablette) --- */
+        /* 5. Feedback propre : le bouton change de couleur SANS le carré */
+        .btn-back-circle:active {
+            background-color: white !important;
+            transform: scale(0.9);
+        }
+
+        .btn-back-circle:active i {
+            color: var(--primary) !important;
+        }
+
+        /* --- ADAPTATION RESPONSIVE --- */
+        @media (max-width: 480px) {
+            .btn-back-circle {
+                width: 38px;
+                height: 38px;
+            }
+            
+            .btn-back-circle i {
+                font-size: 0.95rem;
+            }
+            
+            .brand-name {
+                font-size: 1.4rem; /* Réduction légère du nom pour laisser de la place au bouton sur petit écran */
+            }
+        }
+
+
+
         /* --- MOBILE RESPONSIVE --- */
         @media (max-width: 768px) {
             .form-group { flex-direction: column; align-items: flex-start; }
@@ -204,6 +294,14 @@
                 <span class="brand-name">BL Alliance</span>
             </a>
         </div>
+        <div class="header-actions">
+            <a href="dashboard.html" class="btn-back-link">
+                <button class="btn-back-circle" title="Retour au Dashboard">
+                    <i class="fas fa-angles-left"></i>
+                </button>
+            </a>
+        </div>
+
     </header>
 
     <div class="container">

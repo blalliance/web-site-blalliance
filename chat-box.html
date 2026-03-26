@@ -84,7 +84,7 @@
                 <span class="header-status">En ligne</span>
             </div>
         </div>
-        <div class="header-actions">
+<!--         <div class="header-actions">
             <div class="menu-container">
                 <i class="fas fa-ellipsis-v" id="menuBtn"></i>
                 
@@ -94,7 +94,25 @@
                     <a href="block-user.html" style="text-decoration: none; color: inherit; cursor: pointer;"><div class="dropdown-item danger"><i class="fas fa-ban"></i> Bloquer</div></a>
                 </div>
             </div>
+        </div> -->
+        <div class="header-actions">
+            <a href="dashboard.html" class="btn-back-link">
+                <button class="btn-back-circle" title="Retour au Dashboard">
+                    <i class="fas fa-angles-left"></i>
+                </button>
+            </a>
+
+            <div class="menu-container">
+                <i class="fas fa-ellipsis-v" id="menuBtn"></i>
+                <div class="dropdown-menu" id="headerDropdown">
+                    <a href="others_profil.html" style="text-decoration: none; color: inherit; cursor: pointer;"><div class="dropdown-item"><i class="fas fa-user"></i> Afficher le contact</div></a>
+                    <a href="signal-user.html" style="text-decoration: none; color: inherit; cursor: pointer;"><div class="dropdown-item"><i class="fas fa-flag"></i> Signaler</div></a>
+                    <a href="block-user.html" style="text-decoration: none; color: inherit; cursor: pointer;"><div class="dropdown-item danger"><i class="fas fa-ban"></i> Bloquer</div></a>
+                </div>
+            </div>
         </div>
+
+
     </header>
 
     <div class="chat-messages-area" id="chatMessages">
