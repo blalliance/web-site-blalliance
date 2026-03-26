@@ -1,3 +1,47 @@
+/* --- RESET TACTILE GLOBAL (ANTI-CARRÉ) --- */
+
+/* Supprime le rectangle gris/bleu sur tous les éléments cliquables */
+* {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
+/* Supprime la bordure de sélection (focus) qui apparaît parfois en rectangle */
+:focus {
+    outline: none !important;
+}
+
+/* --- CORRECTIFS SPÉCIFIQUES --- */
+
+/* 1. La flèche retour (Sidebar) */
+.back-icon {
+    user-select: none;
+    -webkit-user-select: none;
+    padding: 10px; /* Augmente la zone de clic sans changer le visuel */
+}
+
+/* 2. Le bouton d'envoi */
+.btn-send {
+    outline: none !important;
+    user-select: none;
+    -webkit-user-select: none;
+    /* On assure un feedback propre sans carré */
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* 3. Les icônes de menu (3 points) */
+#menuBtn, .message-menu-btn {
+    outline: none !important;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* 4. Les items de la liste de contacts */
+.contact-item {
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+}
+
+
 :root {
     --primary: #D32F2F; --dark-bg: #0a0a0a; --card-bg: #141414; --glass: rgba(255, 255, 255, 0.08); --border-color: rgba(211, 47, 47, 0.2); --text-gray: #888;
 }
@@ -92,8 +136,85 @@ body {
     content: ""; width: 7px; height: 7px; background: #4CAF50; border-radius: 50%; display: inline-block;
 }
 
+/* --- AJUSTEMENT POUR L'ESPACEMENT --- */
 .header-actions {
-    display: flex;  align-items: center; justify-content: center; padding-right: 5px; 
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Crée un espace propre entre le bouton rond et l'icône menu */
+}
+
+/* On s'assure que le lien ne prenne pas de place inutile */
+.btn-back-link {
+    display: flex; align-items: center;
+}
+
+/* --- RESET DU LIEN ET ACTIONS HEADER --- */
+.header-actions {
+    display: flex; align-items: center;
+}
+
+/* 4. On force aussi le reset sur le lien parent pour être sûr */
+.btn-back-link {
+    text-decoration: none !important; -webkit-tap-highlight-color: transparent; outline: none !important;
+}
+
+/* --- BOUTON ROND --- */
+.btn-back-circle {
+    width: 30px; height: 30px; border-radius: 50%; background-color: var(--primary); color: white; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 4px 10px rgba(211, 47, 47, 0.3);
+    
+    /* 1. Supprime le rectangle gris/bleu sur Android/iOS */
+    -webkit-tap-highlight-color: transparent; -webkit-tap-highlight-color: rgba(0,0,0,0);
+    
+    /* 2. Supprime la bordure de focus (souvent bleue ou orange) */
+    outline: none !important;
+    
+    /* 3. Empêche la sélection de texte parasite lors du clic répété */
+    user-select: none; -webkit-user-select: none;
+}
+
+.btn-back-circle i {
+    font-size: 1.1rem; transition: transform 0.3s ease, color 0.3s ease;
+}
+
+/* --- EFFET HOVER (PC) --- */
+@media (hover: hover) {
+    .btn-back-circle:hover {
+        background-color: white;
+        /*transform: scale(1.1);
+        box-shadow: 0 6px 15px rgba(255, 255, 255, 0.2);*/
+    }
+    
+    .btn-back-circle:hover i {
+        color: var(--primary);
+        /*transform: translateX(-3px);*/
+    }
+}
+
+/* --- EFFET CLIC / ACTIVE (Mobile & Tablette) --- */
+/* 5. Feedback propre : le bouton change de couleur SANS le carré */
+.btn-back-circle:active {
+    background-color: white !important;
+    transform: scale(0.9);
+}
+
+.btn-back-circle:active i {
+    color: var(--primary) !important;
+}
+
+/* --- ADAPTATION RESPONSIVE --- */
+@media (max-width: 480px) {
+    .btn-back-circle {
+        width: 30px;
+        height: 30px;
+    }
+    
+    .btn-back-circle i {
+        font-size: 0.95rem;
+    }
+    
+    .brand-name {
+        font-size: 1.4rem; /* Réduction légère du nom pour laisser de la place au bouton sur petit écran */
+    }
 }
 
 #menuBtn {
